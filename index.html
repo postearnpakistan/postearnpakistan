@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#176b52" />
+  <meta name="description" content="PostEarn Pakistan — share useful original posts and join a bilingual community." />
+  <title>PostEarn Pakistan</title>
+  <link rel="stylesheet" href="styles.css" />
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <header class="topbar">
+    <a class="brand" href="#"><span class="brand-mark">P</span><span>PostEarn <small>Pakistan</small></span></a>
+    <div class="header-actions"><button id="languageBtn" class="btn btn-light" type="button">اردو</button><button id="logoutBtn" class="btn btn-outline hidden" type="button">Log out</button></div>
+  </header>
+  <main class="container">
+    <section class="hero">
+      <div><p class="eyebrow" data-en="A community for original ideas" data-ur="اصل خیالات کے لیے ایک کمیونٹی">A community for original ideas</p><h1 data-en="Share what you know." data-ur="اپنا علم شیئر کریں۔">Share what you know.</h1><p class="hero-copy" data-en="Publish useful posts, meet readers and track genuine engagement. Cash rewards are not currently offered." data-ur="مفید پوسٹس شائع کریں، قارئین سے جڑیں اور حقیقی دلچسپی دیکھیں۔ فی الحال نقد انعامات دستیاب نہیں ہیں۔">Publish useful posts, meet readers and track genuine engagement. Cash rewards are not currently offered.</p></div>
+      <div class="hero-note"><strong data-en="Start safely" data-ur="محفوظ آغاز">Start safely</strong><p data-en="Posts are reviewed before they appear publicly. Never post passwords, financial details or private information." data-ur="پوسٹس عوامی ہونے سے پہلے دیکھی جاتی ہیں۔ پاس ورڈ، مالی معلومات یا نجی تفصیلات شیئر نہ کریں۔">Posts are reviewed before they appear publicly. Never post passwords, financial details or private information.</p></div>
+    </section>
+
+    <section id="setupNotice" class="notice warning"><strong>One-time setup needed</strong><p>Open <code>app.js</code> and replace the two Supabase placeholders with your project URL and anon/publishable key. Then run <code>supabase.sql</code> in the Supabase SQL Editor.</p></section>
+
+    <section class="auth-card" id="authCard">
+      <div class="section-heading"><div><p class="eyebrow" data-en="Your account" data-ur="آپ کا اکاؤنٹ">Your account</p><h2 data-en="Join the community" data-ur="کمیونٹی میں شامل ہوں">Join the community</h2></div></div>
+      <div class="auth-grid">
+        <form id="signupForm" class="form-panel"><h3 data-en="Create account" data-ur="اکاؤنٹ بنائیں">Create account</h3><label><span data-en="Display name" data-ur="نام">Display name</span><input id="signupName" required maxlength="40" autocomplete="nickname" placeholder="Your name" /></label><label>Email<input id="signupEmail" type="email" required autocomplete="email" placeholder="you@example.com" /></label><label><span data-en="Password (at least 8 characters)" data-ur="پاس ورڈ (کم از کم 8 حروف)">Password (at least 8 characters)</span><input id="signupPassword" type="password" required minlength="8" autocomplete="new-password" /></label><button class="btn btn-primary" type="submit" data-en="Create account" data-ur="اکاؤنٹ بنائیں">Create account</button></form>
+        <form id="loginForm" class="form-panel"><h3 data-en="Welcome back" data-ur="خوش آمدید">Welcome back</h3><label>Email<input id="loginEmail" type="email" required autocomplete="email" /></label><label><span data-en="Password" data-ur="پاس ورڈ">Password</span><input id="loginPassword" type="password" required autocomplete="current-password" /></label><button class="btn btn-dark" type="submit" data-en="Log in" data-ur="لاگ اِن کریں">Log in</button></form>
+      </div><p id="authMessage" class="message" role="status"></p>
+    </section>
+
+    <section id="memberArea" class="hidden">
+      <div class="welcome-row"><div><p class="eyebrow" data-en="Your community" data-ur="آپ کی کمیونٹی">Your community</p><h2 id="welcomeTitle">Welcome!</h2></div><span id="roleBadge" class="badge">Member</span></div>
+      <div class="dashboard-grid">
+        <section class="card composer"><h3 data-en="Create a post" data-ur="پوسٹ بنائیں">Create a post</h3><p class="muted" data-en="Original, helpful posts only. New posts wait for admin approval." data-ur="صرف اصل اور مفید پوسٹس۔ نئی پوسٹس ایڈمن کی منظوری تک زیرِ انتظار رہیں گی۔">Original, helpful posts only. New posts wait for admin approval.</p><form id="postForm"><label><span data-en="Post title" data-ur="پوسٹ کا عنوان">Post title</span><input id="postTitle" maxlength="120" required placeholder="A useful title" /></label><label><span data-en="Your post" data-ur="آپ کی پوسٹ">Your post</span><textarea id="postBody" rows="5" maxlength="5000" required placeholder="Share something original and useful…"></textarea></label><button class="btn btn-primary" type="submit" data-en="Submit for review" data-ur="جائزے کے لیے بھیجیں">Submit for review</button></form><p id="postMessage" class="message" role="status"></p></section>
+        <aside class="card stats"><h3 data-en="Creator snapshot" data-ur="کریئیٹر کی معلومات">Creator snapshot</h3><div class="stat"><span data-en="Approved posts" data-ur="منظور شدہ پوسٹس">Approved posts</span><strong id="myPostCount">0</strong></div><div class="stat"><span data-en="Your approved-post views" data-ur="آپ کی منظور شدہ پوسٹس کے ویوز">Your approved-post views</span><strong id="myViewCount">0</strong></div><div class="reward-note"><strong data-en="Rewards status" data-ur="انعامات کی صورتحال">Rewards status</strong><p data-en="Tracking only. No cash balance or payouts are enabled in this starter version." data-ur="صرف اعدادوشمار۔ اس ابتدائی ورژن میں نقد بیلنس یا ادائیگیاں فعال نہیں ہیں۔">Tracking only. No cash balance or payouts are enabled in this starter version.</p></div></aside>
+      </div>
+      <section id="adminPanel" class="card admin-panel hidden"><div class="section-heading"><div><p class="eyebrow">ADMIN</p><h3 data-en="Moderation queue" data-ur="جائزے کی فہرست">Moderation queue</h3></div><button id="refreshBtn" class="btn btn-outline" type="button" data-en="Refresh" data-ur="تازہ کریں">Refresh</button></div><p class="muted" data-en="Approve only original, safe content. Do not approve spam, copied work, scams or illegal content." data-ur="صرف اصل اور محفوظ مواد منظور کریں۔ اسپیم، نقل شدہ کام، فراڈ یا غیر قانونی مواد منظور نہ کریں۔">Approve only original, safe content. Do not approve spam, copied work, scams or illegal content.</p><div id="pendingPosts" class="pending-list"></div></section>
+      <section class="feed-section"><div class="section-heading"><div><p class="eyebrow" data-en="The community" data-ur="کمیونٹی">The community</p><h2 data-en="Latest approved posts" data-ur="تازہ منظور شدہ پوسٹس">Latest approved posts</h2></div><button id="feedRefreshBtn" class="btn btn-outline" type="button" data-en="Refresh feed" data-ur="فیڈ تازہ کریں">Refresh feed</button></div><div id="feed" class="feed"><div class="empty">Loading posts…</div></div></section>
+    </section>
+    <footer><p>© <span id="year"></span> PostEarn Pakistan</p><p data-en="Community prototype • No guaranteed earnings • Use responsibly" data-ur="کمیونٹی کا ابتدائی ورژن • آمدنی کی ضمانت نہیں • ذمہ داری سے استعمال کریں">Community prototype • No guaranteed earnings • Use responsibly</p></footer>
+  </main>
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <script src="app.js"></script>
+</body>
+</html>
